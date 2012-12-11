@@ -1,0 +1,45 @@
+LEGAL STATUS
+============
+
+
+1. COPYRIGHT
+
+   Blaise is copyright (C) David J Butler 2003. All Rights Reserved.
+
+
+2. SOURCE CODE LICENSE
+
+   Blaise is subject to the Mozilla Public License Version 1.1 (the "License");
+   you may not use Blaise except in compliance with the License. You may obtain
+   a copy of the License at "http://www.mozilla.org/MPL/".
+                                                                               
+   Software distributed under the License is distributed on an "AS IS" basis,
+   WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License for
+   the specific language governing rights and limitations under the License.
+                                                                               
+   The Initial Developer of the Original Code is David J Butler (Pretoria,
+   South Africa, "http://www.eternallines.com/"). Portions created by the
+   Initial Developer are "Copyright (C) 1999-2003 David J Butler. All Rights 
+   Reserved."
+
+
+3. SOFTWARE LICENSE
+
+   You may freely use Blaise to develop applications, including commercial 
+   applications. You may freely distribute and deploy the Blaise executables
+   and libraries.
+
+
+4. CONTACT
+
+   Blaise Home Page: 
+   http://www.eternallines.com/blaise
+
+   Blaise Home Page on SourceForge:
+   http://blaise.sourceforge.net/
+
+   Blaise Project Page on SourceForce:
+   http://sourceforge.net/projects/blaise/
+
+   Blaise E-Mail:
+   blaise@eternallines.com

@@ -1,0 +1,3304 @@
+
+
+
+
+Blaise 0.9 Specifications                                    D.J. Butler
+Blaise Language                                            Eternal Lines
+Users Guide                                                 October 2003
+
+
+                          The Blaise Language
+
+Status of this Document
+
+   This document specifies the Blaise language, and requests discussion
+   and suggestions for improvements.  Distribution of this document is
+   unlimited.
+
+Copyright Notice
+
+   Copyright (C) Eternal Lines (2003).  All Rights Reserved.
+
+Abstract
+
+   This document describes the Blaise language.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 1]
+
+Blaise Language               Users Guide                   October 2003
+
+
+Table of Contents
+
+   1.      Introduction . . . . . . . . . . . . . . . . . . . . . . .  5
+   1.1     Language Overview  . . . . . . . . . . . . . . . . . . . .  5
+
+   2.      Lexical Elements . . . . . . . . . . . . . . . . . . . . .  7
+   2.1     Encoding . . . . . . . . . . . . . . . . . . . . . . . . .  7
+   2.2     White space  . . . . . . . . . . . . . . . . . . . . . . .  7
+   2.3     Comments . . . . . . . . . . . . . . . . . . . . . . . . .  7
+   2.4     Identifiers  . . . . . . . . . . . . . . . . . . . . . . .  7
+   2.5     String literals  . . . . . . . . . . . . . . . . . . . . .  8
+   2.6     Numeric literals . . . . . . . . . . . . . . . . . . . . .  8
+   2.7     Boolean literals . . . . . . . . . . . . . . . . . . . . .  8
+
+   3.      Declarations . . . . . . . . . . . . . . . . . . . . . . .  9
+   3.1     Constant declarations  . . . . . . . . . . . . . . . . . .  9
+   3.2     Variable declarations  . . . . . . . . . . . . . . . . . . 10
+   3.3     Type declarations  . . . . . . . . . . . . . . . . . . . . 11
+   3.4     Functions  . . . . . . . . . . . . . . . . . . . . . . . . 12
+   3.5     Tasks  . . . . . . . . . . . . . . . . . . . . . . . . . . 13
+
+   4.      Types  . . . . . . . . . . . . . . . . . . . . . . . . . . 14
+   4.1     Overview . . . . . . . . . . . . . . . . . . . . . . . . . 14
+   4.2     Primitive types  . . . . . . . . . . . . . . . . . . . . . 15
+   4.2.1   Overview . . . . . . . . . . . . . . . . . . . . . . . . . 15
+   4.2.2   Strings  . . . . . . . . . . . . . . . . . . . . . . . . . 16
+   4.2.3   Unicode  . . . . . . . . . . . . . . . . . . . . . . . . . 17
+   4.2.4   Integer  . . . . . . . . . . . . . . . . . . . . . . . . . 18
+   4.2.5   Boolean  . . . . . . . . . . . . . . . . . . . . . . . . . 18
+   4.2.6   Float  . . . . . . . . . . . . . . . . . . . . . . . . . . 18
+   4.2.7   DateTime . . . . . . . . . . . . . . . . . . . . . . . . . 19
+   4.2.8   Currency . . . . . . . . . . . . . . . . . . . . . . . . . 19
+   4.2.9   Rational . . . . . . . . . . . . . . . . . . . . . . . . . 20
+   4.2.10  Complex  . . . . . . . . . . . . . . . . . . . . . . . . . 21
+   4.2.11  Stream . . . . . . . . . . . . . . . . . . . . . . . . . . 22
+   4.2.12  Range types  . . . . . . . . . . . . . . . . . . . . . . . 23
+   4.2.13  Statistic  . . . . . . . . . . . . . . . . . . . . . . . . 24
+   4.2.14  Expression . . . . . . . . . . . . . . . . . . . . . . . . 25
+   4.3     Composite types  . . . . . . . . . . . . . . . . . . . . . 26
+   4.3.1   Overview . . . . . . . . . . . . . . . . . . . . . . . . . 26
+   4.3.2   Record . . . . . . . . . . . . . . . . . . . . . . . . . . 26
+   4.3.3   Class  . . . . . . . . . . . . . . . . . . . . . . . . . . 27
+   4.3.4   Array  . . . . . . . . . . . . . . . . . . . . . . . . . . 28
+   4.3.5   Dictionary . . . . . . . . . . . . . . . . . . . . . . . . 29
+   4.3.6   Vector . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+   4.3.7   Matrix . . . . . . . . . . . . . . . . . . . . . . . . . . 29
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 2]
+
+Blaise Language               Users Guide                   October 2003
+
+
+   5.      Expressions  . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.1     Numeric operators  . . . . . . . . . . . . . . . . . . . . 30
+   5.1.1   Addition . . . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.1.2   Subtraction  . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.1.3   Multiplication . . . . . . . . . . . . . . . . . . . . . . 30
+   5.1.4   Floating point division  . . . . . . . . . . . . . . . . . 30
+   5.1.5   Power  . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.1.6   Integer division and modulo  . . . . . . . . . . . . . . . 30
+   5.1.7   Rational division  . . . . . . . . . . . . . . . . . . . . 30
+   5.1.8   Logical Integer operators  . . . . . . . . . . . . . . . . 30
+   5.2     Mathematical functions . . . . . . . . . . . . . . . . . . 30
+   5.2.1   Sin  . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.2.2   Cos  . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.2.3   Ln . . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.2.4   Exp  . . . . . . . . . . . . . . . . . . . . . . . . . . . 30
+   5.2.5   Sqrt . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+   5.2.6   Sqr  . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+   5.2.7   Abs  . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+   5.3     Other functions  . . . . . . . . . . . . . . . . . . . . . 31
+   5.3.1   Length . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+   5.3.2   Random . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+   5.3.3   Repr . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+   5.3.4   Eval . . . . . . . . . . . . . . . . . . . . . . . . . . . 31
+   5.4     Scope expressions  . . . . . . . . . . . . . . . . . . . . 32
+   5.4.1   Self . . . . . . . . . . . . . . . . . . . . . . . . . . . 32
+   5.5     Conditional expression . . . . . . . . . . . . . . . . . . 32
+   5.6     Assignment expression  . . . . . . . . . . . . . . . . . . 32
+   5.7     Array constructor expression . . . . . . . . . . . . . . . 32
+   5.8     Dictionary constructor expression  . . . . . . . . . . . . 33
+   5.9     Copy constructor . . . . . . . . . . . . . . . . . . . . . 33
+   5.10    Coercing . . . . . . . . . . . . . . . . . . . . . . . . . 33
+   5.11    Named values (bindings)  . . . . . . . . . . . . . . . . . 34
+
+   6.      Statements . . . . . . . . . . . . . . . . . . . . . . . . 35
+   6.1     Assignment . . . . . . . . . . . . . . . . . . . . . . . . 35
+   6.2     For-Loop . . . . . . . . . . . . . . . . . . . . . . . . . 35
+   6.3     While-Loop . . . . . . . . . . . . . . . . . . . . . . . . 36
+   6.4     Repeat-Loop  . . . . . . . . . . . . . . . . . . . . . . . 36
+   6.5     Iteration Statement  . . . . . . . . . . . . . . . . . . . 37
+   6.6     Block Statement  . . . . . . . . . . . . . . . . . . . . . 37
+   6.7     If Statement . . . . . . . . . . . . . . . . . . . . . . . 38
+   6.8     Case Statement . . . . . . . . . . . . . . . . . . . . . . 38
+   6.9     Mathematical statements  . . . . . . . . . . . . . . . . . 39
+   6.9.1   Inc  . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+   6.9.2   Dec  . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 3]
+
+Blaise Language               Users Guide                   October 2003
+
+   6.10    Input/Output statements  . . . . . . . . . . . . . . . . . 39
+   6.10.1  Write/Writeln  . . . . . . . . . . . . . . . . . . . . . . 39
+   6.10.2  Read/Readln  . . . . . . . . . . . . . . . . . . . . . . . 39
+   6.11    Flow of control statements . . . . . . . . . . . . . . . . 39
+   6.11.1  Exit . . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+   6.11.2  Break  . . . . . . . . . . . . . . . . . . . . . . . . . . 39
+   6.11.3  Continue . . . . . . . . . . . . . . . . . . . . . . . . . 39
+   6.11.4  Raise  . . . . . . . . . . . . . . . . . . . . . . . . . . 40
+   6.11.5  Try .. Finally . . . . . . . . . . . . . . . . . . . . . . 40
+   6.11.6  Try .. Except  . . . . . . . . . . . . . . . . . . . . . . 40
+
+   7.      Representations  . . . . . . . . . . . . . . . . . . . . . 42
+   7.1     Representations  . . . . . . . . . . . . . . . . . . . . . 42
+   7.1.1   String representation  . . . . . . . . . . . . . . . . . . 42
+   7.1.2   Unicode representation . . . . . . . . . . . . . . . . . . 42
+   7.1.3   Blaise script representation . . . . . . . . . . . . . . . 42
+   7.1.4   Packed representation  . . . . . . . . . . . . . . . . . . 42
+
+   8.      Units  . . . . . . . . . . . . . . . . . . . . . . . . . . 43
+
+   9.      Extending Blaise . . . . . . . . . . . . . . . . . . . . . 44
+
+   10.     Miscelleaneous . . . . . . . . . . . . . . . . . . . . . . 45
+   10.1    Using TCP  . . . . . . . . . . . . . . . . . . . . . . . . 45
+   10.2    Using Name Spaces  . . . . . . . . . . . . . . . . . . . . 45
+
+   11.     References . . . . . . . . . . . . . . . . . . . . . . . . 46
+
+   12.     Credits  . . . . . . . . . . . . . . . . . . . . . . . . . 47
+
+   13.     Contact information  . . . . . . . . . . . . . . . . . . . 48
+
+   14.     Full Copyright Statement . . . . . . . . . . . . . . . . . 49
+
+   Appendix
+
+   A.      Using the Blaise CLI . . . . . . . . . . . . . . . . . . . 50
+
+   B.      Using the Blaise DLL . . . . . . . . . . . . . . . . . . . 51
+
+   C.      Language Definition  . . . . . . . . . . . . . . . . . . . 52
+
+   D.      Blaise Root Name Space . . . . . . . . . . . . . . . . . . 57
+   D.1     FILE . . . . . . . . . . . . . . . . . . . . . . . . . . . 57
+   D.2     TCP  . . . . . . . . . . . . . . . . . . . . . . . . . . . 57
+   D.3     TCPD . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+   D.4     HTTP . . . . . . . . . . . . . . . . . . . . . . . . . . . 58
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 4]
+
+Blaise Language               Users Guide                   October 2003
+
+
+1.  INTRODUCTION
+
+    1.  Language Overview
+
+        Blaise is an object-oriented scripting language.
+
+        The syntax was influenced by Object Pascal[1][2], Python[3] and
+        Ada[5].
+
+        A key design principle in the development of the Blaise
+        language was to build an object oriented scripting language
+        which could be used for both fast prototyping as well as formal
+        application development.
+
+        Languages commonly used for prototyping, integration and
+        scripting, like Python[3], are desirable because of their terse
+        syntax, their object orientation and/or their minimal requirement
+        of declarations.
+
+        Languages used for application development, like C++, Java[4] and
+        Delphi, are desirable because of their formal declarative
+        style. This reduces errors, allows for more optimizations and
+        improves readability and managability.
+
+        Like Python[3] and Java[4], Blaise values are strongly typed.
+        This means that a value's type is fixed at creation.  Languages
+        like Pascal, C and assembly language are weakly typed because
+        they allow values to be type-casted to other types.
+
+        Although Blaise is stronly typed, values are coercable.
+        Coercion differs from type-casting in that with coercion,
+        types are only coercable if it is implemented by (and therefore
+        makes sense to) either one of the types.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 5]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        Languages such as Pascal and Java[4] are statically typed (or
+        'typed' for short).  A statically typed variable has its type
+        defined at design-time by a declaration in the source code and
+        it can only hold values of the defined type at run-time.  A
+        dynamically typed variable on the other hand can hold values of
+        any type at run-time.  Python[3] is an example of a dynamically
+        typed language.
+
+        Good reasons for using statically typed variables are that they
+        improve general code readability, allow for improved run-time
+        optimization over untyped variables and they allow compile-time
+        type checking.
+
+        Dynamically typed variables, on the other hand, lend themselves
+        to brief expressive source code, they allow interfaces to
+        remain unchanged when type definitions change and they allow
+        polymorphic operations.
+
+        Blaise supports both statically and dynamically typed variables.
+        In practice this implies that type declarations are optional.
+        This allows a programmer to do quick prototyping, without
+        spending time on declarations and their associated constraints,
+        while enabling her to later on refine the application using
+        declarations.
+
+        Blaise is richly typed.  The language defines a large variety of
+        common built-in types, including string, unicode, numeric,
+        mathematical and statistical types.
+
+        Blaise also supports co-routines, or co-operatively scheduled
+        functions, called tasks.  The implementation uses 'micro-threads'
+        to manage task switching.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 6]
+
+Blaise Language               Users Guide                   October 2003
+
+
+2.  LEXICAL ELEMENTS
+
+    1.  Encoding
+
+        All keywords, special symbols, identifiers and numeric literals
+        in Blaise source code are from 7-bit ASCII, and may not contain
+        non-ASCII Unicode characters.  String literals and comments may
+        however contain Unicode characters.
+
+
+    2.  White-space
+
+        White-space is defined as all ASCII control characters and the
+        ASCII space.  The sequence CR LF, ie ASCII 13 followed by ASCII
+        10, is used to indicate the start of a new line.
+
+
+    3.  Comments
+
+        Three types of comments are recognised.  Comments that span
+        lines can be enclosed in curly brackets,  { } ,  or enclosed
+        between (*  and  *).  A comment preceded with the  //  sequence
+        continues until the end of the line.
+
+        Examples:
+
+        A := 1; { Comment } B := 2;
+
+        (* This is a multi-
+           line comment     *)
+
+        A := 1;  // Comment extends until the end of the line
+
+
+    4.  Identifiers
+
+        The first character of an identifier must be alpha or an
+        underscore.  The rest of the characters must be alpha-numeric or
+        an underscore, ie:
+
+        Identifier ::= [A-Za-z_][A-Za-z_0-9]*
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 7]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    5.  String literals
+
+        A string literal is enclosed in single quotes.  A single quote
+        can be represented inside the single quotes by using two single
+        quotes, for example: 'Fido''s network'.  Single characters can
+        be appended after a closing quote using the hash ( # ) character
+        followed by a character code, for example: 'A line'#13#10
+
+
+    6.  Numeric literals
+
+        Numeric literals can be:
+
+          i)   integers, for example: 79, -100
+
+          ii)  hexadecimal numbers, by preceding the hexadecimal value
+               with the sequence '0x', for example: 0x5A, 0xF5
+
+          ii)  Pascal-style hexadecimal numbers, by preceding the
+               hexadecimal value with a dollar sign ( $ ),
+               for example: $5A, $F5
+
+          iv)  binary numbers, by preceding the binary value with the
+               sequence '0b', for example: 0b10101100
+
+        Floats can be represented as:
+
+          i)   decimal digits including a decimal point,
+               for example: 1.3
+
+          ii)  scientific notation, for example: 1.5e+03
+
+        Complex numbers are represented by a float number immediately
+        followed by an 'i', for example: 5.7i
+
+
+    7.  Boolean literals
+
+        Boolean values are 'True' and 'False'.
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 8]
+
+Blaise Language               Users Guide                   October 2003
+
+
+3.  DECLARATIONS
+
+    1.  Constant declaration
+
+        1.  Definition
+
+            ConstDeclarationSection ::=
+                'const' (<ConstDeclaration> ';')+
+            ConstDeclaration ::= <Identifier> (',' <Identifier>)*
+                (':' <TypeDefinition>)? '=' <Expression>
+
+        2.  Examples
+
+            const X = 1;
+                  Y : Integer = 2;
+                  Z : Integer = 2.2;
+                  Z1, Z2 = 3;
+
+            const
+              A : Integer = 1;
+              B : Float = 2.0;
+
+            const
+              First  = 1;   // Comment
+              Second = 2;
+              Third  = 3;
+
+        3.  Notes
+
+            Identifiers declared as constants can not be re-assigned.
+            If a type is specified, the value is coerced, for example,
+            if the type is Integer and the value a Float, the value will
+            be truncated.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                  [Page 9]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    2.  Variable declaration
+
+        1.  Definition
+
+            VariableDeclarationSection ::= 'var' (<VarDeclaration> ';')+
+            VarDeclaration ::= <Identifier> (',' <Identifier>)*
+                (':' <TypeDefinition>)? ('=' <Expression>)?
+
+        2.  Examples
+
+            var X, Y;
+                Z : Integer;
+                Z1, Z2 : Integer = 3;
+
+            var
+              X, Y : Integer;
+              Z    : Float = 1.0;
+
+            var
+              X, Y : Integer;
+              Z : Float;
+
+        3.  Notes
+
+            Variable declarations are optional.  If an undeclared
+            variable is assigned at run-time it is created in the inner
+            scope, for example, a variable created in a function will be
+            a local variable.  Undeclared variables are untyped.
+
+            When a variable is declared with a type, it is called a
+            typed variable.  Typed variables can only hold values of the
+            defined type.  If a value of another type is assigned to a
+            typed variable, an attempt is made to coerce the value to
+            the required type.
+
+            Variable declarations can also be used to initialize
+            variables.  The variable will be initialized every time the
+            variable's scope is entered, for example, a local
+            initialized variable will be initialized every time its
+            function is entered.
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 10]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    3.  Type declaration
+
+        1.  Definition
+
+            TypeDeclarationSection ::= 'type' (<TypeDeclaration> ';')+
+            TypeDeclaration ::= <Identifier> '=' <TypeDefinition>
+
+        2.  Examples
+
+            type X = Integer;
+                 Y = Float;
+
+            type
+              X = class(Y)
+                Z : Integer;
+              end;
+              Y = Float;
+
+        3.  Notes
+
+            A type declaration binds a type definition to an identifier.
+            Like other declarations, type declarations are only visible
+            in the scope where they are defined.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 11]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    4.  Functions
+
+        1.  Definition
+
+            FunctionDeclaration ::= 'Function' <FuncPrototype>
+                ( ':' <ResultType> )?
+                ( <LocalDeclarations> )?
+                ( ':=' <Expression> ) | ( <BlockStatement> )
+            ProcedureDeclaration ::= 'Procedure' <FuncPrototype>
+                ( <LocalDeclarations> )? <BlockStatement>
+            ConstructorDeclaration ::= 'Constructor' <FuncPrototype>
+                ( <LocalDeclarations> )? <BlockStatement>
+            DestructorDeclaration ::= 'Destructor' <FuncPrototype>
+                ( <LocalDeclarations> )? <BlockStatement>
+            FuncPrototype ::= ( <Identifier> '.' )? <Identifier>
+                ( '(' <ParameterDefinition>
+                ( ',' <ParameterDefinition> )* ')' )?
+            ParameterDefinition ::= ( 'const' | 'var' )? <Identifier>
+                ( ':' <Type> )? ( '=' <ConstantExpression> )?
+
+        2.  Examples
+
+            Function Sum (X, Y : Integer);
+              Begin
+                Result := X + Y;
+              End;
+
+            Function Sum (X, Y) := X + Y;
+
+            Procedure Sum (const X, Y; var Result);
+              Begin
+                Result := X + Y;
+              End;
+
+            Constructor MyClass.Create;
+              Begin
+              End;
+
+        3.  Notes
+
+            Functions, Procedures, Constructors and Destructors are
+            blocks of executable code that are callable by name.
+            All can accept parameters.
+            Functions also return a result value.
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 12]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    5.  Tasks
+
+        1.  Definition
+
+            TaskDeclaration := 'Task' <TaskPrototype>
+                ( <LocalDeclarations> )? <BlockStatement>
+
+        2.  Examples
+
+            Task CountTask;
+              Begin
+                For I := 1 to 9 do
+                  Return I;
+              End;
+
+            Begin
+              X := CountTask;
+              For A in X do
+                Write A;
+            End.
+
+            The output of the above code is: 123456789
+
+            X := [1,2,3,3,2,1,2,3]
+
+            Task Find2s;
+              Begin
+                For I := 0 to X.Count - 1 do
+                  if X[I] = 2 then
+                    Return I;
+              End;
+
+            Begin
+              For A in Find2s do
+                Write A;
+            End.
+
+            The output of the above code is: 146
+
+        3.  Notes
+
+            Blaise Tasks are co-routines or cooperatively scheduled
+            tasks.
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 13]
+
+Blaise Language               Users Guide                   October 2003
+
+
+4.  TYPES
+
+    1.  Overview
+
+        Blaise types are either primitive types or composite types.
+
+                     Blaise types
+                           |
+                  +--------+--------+
+                  |                 |
+           Primitive types   Composite types
+
+        Composite types are containers for a number of primitive or
+        composite type values.
+
+        Blaise types can also have certain attributes based on the
+        nature of the type, regardless of whether its a primitive or
+        a composite type.  These attributes are:
+
+          i)   Mutable
+
+               Types with a value that can change after construction
+               are called mutable, for example an array.  Types that
+               are constructed with a fixed value are called immutable.
+
+          ii)  Ordered
+
+               Ordered types support an interface where the ordered
+               elements are accessed by an integer index.
+
+          iii) Mapping
+
+               Mapping types support an interface where the elements
+               are accessed by an arbitrary index set.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 14]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    2.  Primitive Types
+
+        1.  Overview
+
+            Primitive types are divided into various sub-types, as
+            illustrated below:
+
+            Primitive type
+                |
+                +--> Number type
+                |      |
+                |      +--> Real type
+                |      |     |
+                |      |     +--> Float --> Single, Double, etc.
+                |      |     +--> Rational
+                |      |     +--> Fixed point type --> Currency
+                |      |
+                |      +--> Integer --> Byte, Int16, Int32, etc.
+                |      +--> Complex
+                |      +--> Statistic
+                +--> String --> Base64Binary, URL
+                +--> Char
+                +--> Unicode --> Unicode8, Unicode16
+                +--> UnicodeChar
+                +--> Boolean
+                +--> DateTime --> ANSIDateTime, Duration, etc.
+                +--> Stream
+                +--> Expression
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 15]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        2.  String
+
+            Strings represent an array of characters (bytes).
+
+            Properties available on a String value:
+
+                Length (read/write)
+                    The number of characters in the string.
+
+            Individual characters in a string can be accessed by using
+            an index specifier.  The first character has an index of 1.
+
+            Example:
+
+                S := 'ABCD';
+                X := S[2];      // X has the value 'B'
+                S[3] := 'Z';    // S has the value 'ABZD';
+
+            The '+' operator is defined to concatenate two string
+            values, for example:
+
+                S := 'AB' + 'CD';    // S has the value 'ABCD';
+
+            The Base64Binary and URL types are derived from the String
+            type.
+
+            The Base64Binary type use a base 64 representation as the
+            String representation of its value.  It has the following
+            properties:
+
+                Alphabet (read/write)
+                PadChar  (read/write)
+
+            The URL type has the following properties:
+
+                Protocol (read/write)
+                Host     (read/write)
+                Address  (read/write)
+
+            Example:
+
+                X := URL('http://www.org/index.html');
+                Write X.Protocol;    // Output is http
+                Write X.Host;        // Output is www.org
+                Write X.Path;        // Output is /index.html
+                X.Host := 'www.w3.org';
+                Write X;    // Output is http://www.w3.org/index.html
+
+
+
+
+Butler                   Blaise Specifications                 [Page 16]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        3.  Unicode
+
+            Unicode types represent an array of Unicode characters.
+            Every Unicode type also have an associated encoding.  The
+            encoding is used when the Unicode value is assigned to or
+            from a String value.  For example:
+
+                var A, B : Unicode;
+                    S, T : String;
+
+                S := '123';   // S contains the character sequence '123'
+                A := S;       // A contains the Unicode sequence '123'
+                B.Assign(S);  // B contains the Unicode sequence '123'
+                T := B;       // T contains the UTF-8 sequence of B.
+
+            To instanciate an Unicode value with a specific encoding,
+            call the Unicode.Create method.  The call requires a String
+            parameter that is the name of the encoding.  For example:
+
+                X := Unicode.Create('ISO-8859-1');
+                X.Assign('String in ISO-8559-1 format');
+
+            The following encodings are recognised:
+
+                ASCII, ISO-8859-1, ISO-8859-2, ISO-8859-3, ISO-8859-4,
+                ISO-8859-5, ISO-8859-6, ISO-8859-7, ISO-8859-8,
+                ISO-8859-9, ISO-8859-10, ISO-8859-13, ISO-8859-14,
+                ISO-8859-15, KOI8-R, MacLatin2, MacRoman, MacCyrillic,
+                IBM437, windows-1250, windows-1251, windows-1252,
+                ebcdic-us, UTF-8, UTF-16 and UTF-16LE.
+
+            Special Unicode types for popular encodings are also
+            defined.  They are Unicode8 for UTF-8 and Unicode16 for
+            UTF-16.
+
+            Properties available on Unicode values:
+
+                Length (read/write)
+                    The number of Unicode characters in the string.
+
+                Encoding (read only)
+                    The name of the Unicode encoding for this instance.
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 17]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        4.  Integer
+
+            Integer types represent integer numbers.  Internally
+            Integers are implemented as 64-bit Integer values.
+
+            Specific integer types are also defined, namely Byte,
+            Int16, Int32 and Int64.
+
+
+        5.  Boolean
+
+            Boolean types represent values that can be True or False.
+
+            Boolean values can take part in integer operations as 1
+            (if True) or 0 (if False).
+
+
+        6.  Float
+
+            Float types represent floating point numbers (real numbers).
+            Internally Floats are implemented using Extended values
+            (80 bits).
+
+            Specific floating point types are also defined, namely
+            Single, Double and Extended.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 18]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        7.  DateTime
+
+            DateTime types represent a date and time combination.
+            Internally it is stored as a float value and is also
+            compatible with float operations.  Adding 1.0 to a DateTime
+            value will add one day to the stored date.  Subtracting
+            dates will give the number of days difference as a float
+            number.
+
+            DateTime types provide the following read/write properties:
+
+                Year, Month, Day, Hour, Minute, Second and Millisecond.
+
+            The following are read-only properties:
+
+                DayOfWeek, DayOfYear, DaysInMonth, DaysInYear.
+
+            The following types are derived from DateTime:
+
+                ANSIDateTime - DateTime with its numeric and string
+                               representation in ANSI format.
+                RFCDateTime  - DateTime with a string representation
+                               in RFC format.
+                Timer        - Duration (in milliseconds).
+                               Methods Start, Stop and Clear are
+                               available.
+
+
+        8.  Currency
+
+            Currency types are fixed point values that are accurate to
+            four digits after the decimal point.  Internally Currency
+            values are stored as 64-bit Integers.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 19]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        9.  Rational
+
+            Rational types represent rational numbers using an Integer
+            numerator / denominator pair, for example 1/2.
+
+            The String representation of a Rational is:
+
+                Numerator '/' Denominator
+
+            Rational values can take part in addition, subtration,
+            multiplication and division with other rational and integer
+            numbers without being converted to a Float value.
+
+            When a Float is assigned to a Rational type it is converted
+            to the closests rational representation.
+
+            The following are read/write properties on Rationals:
+
+                Numerator
+                Denominator
+
+            The rdiv (rational division) operator can be used to
+            construct rational values, for example:
+
+                A := 1 rdiv 2;      // Assign rational value 1/2 to A
+
+            or use the Numerator, Denominator properties, for example:
+
+                A.Numerator := 1;
+                A.Denominator := 2;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 20]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        10. Complex
+
+            Complex types represent complex numbers using a Float real /
+            imaginary value pair, for example 3i + 5.
+
+            The String representation of a Rational is:
+
+                (Imaginary 'i' ( ('+'|'-') Real )? ) | Real
+
+            For example:
+
+                 3.2i ,  1i-5 ,  3 ,  -5
+
+            When Complex values take part in addition, subtration,
+            multiplication and division with other simple types, the
+            result is a complex value.
+
+            The following are properties on Complex:
+
+                Imaginary and Real (read/write)
+                Module (read)
+
+            The following are methods on Complex:
+
+                Modulo, Conjugate and Invert
+
+            The standard mathematical functions (sin, cos, exp, ln,
+            etc.) are also defined for complex types.
+
+            To assign (construct) complex values, use the complex number
+            syntax, for example:
+
+                A := 5i + 3
+
+            or use the Sqrt function, for example:
+
+                A := 5 * Sqrt(-1) + 3;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 21]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        11. Stream
+
+            Stream types are declared as follow:
+
+                'Stream'
+
+            Stream types implement reading and writing interfaces.
+            Common stream implementations include file streams and
+            socket streams.
+
+            Stream types implement the following properties:
+
+                Pos    : Offset into stream, in bytes, of the next
+                         read/write operation.
+                Size   : Total size of the stream, or -1 if unknown.
+                EOF    : Returns True if stream is at the end of its
+                         data.
+
+            Because some streams do not have a Size value, rather use
+            the EOF method to check if more data can be read from a
+            stream.
+
+            Stream types implement the following methods:
+
+                WriteStr(String)
+                    Write the object's string representation to the
+                    stream.
+                ReadStr(Count)
+                    Read Count bytes and return the data as a String
+                    value.
+                WritePacked(Object)
+                    Write the object's packed representation to the
+                    stream.
+                ReadPacked
+                    Read a packed object from the stream and return the
+                    created object.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 22]
+
+Blaise Language               Users Guide                   October 2003
+
+
+            Example:
+
+                var X : Stream;
+                Begin
+                  X := named 'file:c:\data';
+                  if X.Size = 0 then
+                    Writeln 'Empty'
+                  else
+                    begin
+                      S := ReadStr(X.Size);     // Read file's contents
+                      Write S;                  // Output
+                    end;
+                End;
+
+
+        12. Subrange types
+
+            Subrange types are integer types that hold values limited
+            to a range.
+
+            Two types of subrange types are available:
+
+            1.  Enumerated type
+
+                Enumerated types are defined as follow:
+
+                    EnumeratedType ::= '(' <Identifier> ( '=' <Value> )?
+                        ( ',' <Identifier> ( '=' <Value> )? )*
+
+                For example:
+
+                    type Colours = (clRed, clGreen, clBlue);
+                         S = (s1 = 5, s2 = 10, s3 = 12, s4, s5);
+
+                Multiple identifiers with the same value are allowed.
+                If no value is specified for an identifier, it is one
+                more than the previous identifier.
+
+            2.  Subrange type
+
+                Subrange types are defined by including the keyword
+                Range  in front of a range specification, for example:
+
+                    type R = range 1..100;
+                         X = range A..B+1;
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 23]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        13. Statistic
+
+            The Statistic type allows you to compute various descriptive
+            statistics on a sample without storing the actual sample
+            values.
+
+            To add sample values to the statistic, use the '+' operator
+            or call the 'Add' method.  Any value with a Float
+            representation can be added to the statistic, for example:
+
+                var X: Statistic;
+
+                X.Add(1.2);
+                X := X + 0.5;
+
+            'Add' also accepts an array of Float values as parameter,
+            for example:
+
+                X.Add([1.2, 0.5, 3.9]);
+
+            The String representation of a Statistic is a list of values
+            of common descriptive statistics, in human readable form,
+            for example:
+
+                n: 5  Sum: 0.2  Sum of squares: 42.54
+                Sum of cubes: -152.452  Sum of quads: 1032.957
+                Min: -5.6  Max: 2.3  Range: 7.9
+                Mean: 0.04  Variance: 10.633  Std Dev: 3.26082811567859
+                M3: -26.1175925925926  M4: 175.594585185185
+                Skew: -1.38377630311323  Kurtosis: 3.49425649315553
+
+            The following read-only properties are available for a
+            Statistic:
+
+                Count
+                Min, Max, Range
+                Sum, SumOfSqr, SumOfCubes, SumOfQuads
+                Mean, PopVar, PopStdDev, Variance, StdDev
+                M1, M2, M3, M4, Skew, Kurtosis
+
+            The following methods can be called on a Statistic:
+
+                Add    : Adds value(s) to the Statistic
+                Clear  : Resets Statistic to its empty state
+                         (ie Count = 0)
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 24]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        14. Expression
+
+            The Expression type holds a mathematical expression.
+
+            Methods implemented by the Expression type:
+
+                Eval     - Returns the result of the evaluated
+                           expression.
+                Simplify - Simplifies the expression if possible.
+
+            Properties implemented by the Expression type:
+
+                ExprType - (read-only) Returns the name of the
+                           expression type.
+
+            Example:
+
+                X := Expression('1+1');
+                Write X.Eval;              // Output is 2
+                X := Expression('1+1+a');
+                Write X;                   // Output is ((1 + 1) + a)
+                X.Simplify;
+                Write X;                   // Output is (2 + a)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 25]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    3.  Composite Types
+
+        1.  Overview
+
+            Composite types are divided into various sub-types, as
+            illustrated below:
+
+            Composite Types
+                  |
+                  +--> Record
+                  +--> Class
+                  +--> Array
+                  +--> Dictionary
+                  +--> Vector -> FloatVector, ObjectVector
+                  +--> Matrix    
+
+
+        2.  Record
+
+            Record types are defined as follow:
+
+                RecordType ::= 'record' ( <RecordField> )* 'end'
+
+            Record types can be initialized with a dictionary
+            value.
+
+            Example:
+
+            type
+              MyRec = record
+                A, B : Integer;
+                C    : Float;
+                D    : Integer = 4;
+              end;
+
+            var
+              X : MyRec = ['A':3];
+              Y : MyRec;
+
+            begin
+              Write X.A;    // Output is 3
+              X.B := 1.1;
+              Write X.B;    // Output is 1
+              X.C := 2.1;
+              Write X.C;    // Output is 2.1
+              Write X.D;    // Output is 4
+              Write Y.A;    // Output is 0
+            end;
+
+
+
+Butler                   Blaise Specifications                 [Page 26]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        2.  Class
+
+            Class types are defined as follow:
+
+                ClassType ::= 'class'
+                    ( '(' <Parent> ( ',' <Parent> )* ')' )?
+                    ( <ClassField> )* 'end'
+                Parent ::= <Identifier>
+
+            The syntax is similar to that of Object Pascal.
+
+            Examples:
+
+            type
+              X = class
+              protected
+                FValue : Integer;
+              public
+                constructor Create;
+                property Value: Integer read FValue;
+              end;
+
+            As with variable declarations, the declaration of class
+            fields are optional.  This means that methods can be
+            declared/overriden by a procedure declaration without
+            an associated method declaration in the class.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 27]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        3.  Array
+
+            Arrays are sequential lists indexed by integer.
+
+            Array types are defined as follow:
+
+                'Array' ( 'of' <type> )?
+
+            If the type declaration is omitted, the array holds values
+            of any type.
+
+            Examples:
+
+                var X : Array;
+                    Y : Array of Integer;
+                    Z : Array of Array of Float;
+
+            Properties on Array values:
+
+                Count (read/write)
+
+            Methods on Array values:
+
+                Append(item)
+                Delete(index, count)
+                Insert(index, count)
+                Clear
+                Sort
+
+            Array indexes start at 0.  Array items are accessed by
+            enclosing the index in square brackets, for example:
+
+                X[1] := 1;
+                Z[0][0] := Y[2];
+                Z[0,0] := 2.0;
+
+            Variables of array declarations are references to the array.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 28]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        4.  Dictionary
+
+            Dictionaries are associative lists indexed by key.
+
+            Dictionary types are defined as follow:
+
+                'Dictionary' ( '[' <key type> ']' )?
+                ( 'of' <value type> )?
+
+            If the value type declaration is ommited, the dictionary
+            holds values of any type.  If the key type declaration is
+            ommited, the dictionary uses keys of any type.
+
+            Examples:
+
+                var X : Dictionary[String];
+                    Y : Dictionary of Integer;
+                    Z : Dictionary[String] of Integer;
+                    A : Dictionary[String] of Dictionary;
+                    B : Dictionary;
+
+            Methods on Dictionary values:
+
+                Add(key, value)
+                Delete(key)
+
+            Note: Dictionaries are always untyped in version 0.9.
+
+
+        5.  Vector
+
+            The Vector type is an one dimensional array of numeric
+            values.  It supports common mathematical and statistical
+            operations.
+
+            Properties of a Vector:
+
+                Count (read/write)
+
+
+        6.  Matrix
+
+            The Matrix type is a two dimensional array of numeric
+            values.  It supports common mathematical and statistical
+            operations.
+
+            Properties of a Matrix:
+
+                RowCount (read/write)
+                ColCount (read/write)
+
+Butler                   Blaise Specifications                 [Page 29]
+
+Blaise Language               Users Guide                   October 2003
+
+
+5.  EXPRESSIONS
+
+    1.  Numeric operators
+
+        1.  Addition (+)
+
+        2.  Subtraction (-)
+
+        3.  Multiplication (*)
+
+        4.  Floating point division (/)
+
+        5.  Power (**)
+
+        6.  Integer division and modulo (div mod)
+
+        7.  Rational division (rdiv)
+
+        8.  Logical Integer operators (or and xor not shl shr)
+
+
+    2.  Mathematical functions
+
+        Special mathematical functions are defined to allow uniform
+        usage in expressions.  Any object that defines the special
+        __xxx___ method, where xxx is the function name, can be used
+        as a parameter to these functions.
+
+        1.  Sin
+
+            Sine of angle in radians.
+
+        2.  Cos
+
+            Cosine of angle in radians.
+
+        3.  Ln
+
+            Natural logarithm.
+
+        4.  Exp
+
+            Inverse natural logarithm.
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 30]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        5.  Sqrt
+
+            Square root.
+
+        6.  Sqr
+
+            Square or cube.
+
+        7.  Abs
+
+            Absolute value.
+
+
+    3.  Other functions
+
+        1.  Length
+
+            Length returns the number of items in a list or the number
+            of characters in a string.
+
+            Examples:
+
+                Length('ABC') = 3
+                Length('') = 0
+                Length(['ABC']) = 1
+                Length([1, 3, 5]) = 3
+                Length([]) = 0
+
+        2.  Random
+
+            Prototypes:
+
+                function Random: Float; overload;
+                function Random(const N: Integer): Integer; overload;
+
+            Random returns an uniformly distributed random number.  If
+            Random is called without a parameter, it returns a Float
+            number between 0 and 1.  If Random is called with a
+            parameter, it returns an Integer number between 0 and N - 1.
+
+        3.  Repr
+
+            Repr returns a string representation of an object.  If
+            possible, the string is in the Blaise script syntax.
+
+        4.  Eval
+
+            Eval returns an object from a string expression.
+
+
+
+Butler                   Blaise Specifications                 [Page 31]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    4.  Scope expressions
+
+        1.  Self
+
+            Self is defined in the local scope of a procedure or
+            function of an object.  It contains a reference to the
+            object.
+
+
+    5.  Conditional expression
+
+        The conditional expression evaluates one of two expressions
+        depending on whether the condition evaluates to true or false.
+
+        It takes the form:
+
+            if <Condition> then <TrueExpression> else <FalseExpression>
+
+        Examples:
+
+            Writeln if A = B then 'Equal' else 'Not Equal'
+
+
+    6.  Assignment expression
+
+        The assignment expression allows identifiers to be assigned in
+        an expression.  It takes the same form as an assignment
+        statement.
+
+        Examples:
+
+            y := x := 1;
+            y := 1 + (x := 2);
+            (x := 1) = 1
+            1 + (x := 2) = 3
+
+
+    7.  Array constructor expression
+
+        Array values can be constructed by enclosing the comma delimited
+        values in square brackets.
+
+        Examples:
+
+            [1, 4, 2]
+            [1, [4, 2], 7, 3]
+            ['A', 2, [], 3.1]
+
+        The empty array is constructed by the expression [] .
+
+
+Butler                   Blaise Specifications                 [Page 32]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    8.  Dictionary constructor expression
+
+        Dictionary values can be constructed by enclosing the comma
+        delimited key:value pairs in square brackets.
+
+        Examples:
+
+            ['John':5, 'Fred':10]
+
+        The empty dictionary is constructed by the expression [:] .
+
+
+    9.  Copy constructor
+
+        The Copy function creates a new unique instance of an object
+        type and assigns the existing instance's content to it.
+
+        Examples:
+
+            X := Copy(Y);
+
+
+    10. Coercing
+
+        A coerce expression takes the same form as a function call with
+        one parameter.
+
+        Definition:  <type identifier> '(' <expression> ')'
+
+        If the expression is of the type, the result is the expression,
+        otherwise a new instance of the type is created and the
+        expression assigned to the result.
+
+        Examples:
+
+            S := String(5.3);
+            Integer(5.3) = 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 33]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    11. Named values (bindings)
+
+        Blaise also allows objects to be accessed by a name (as opposed
+        to access by an identifier).  A 'name space' is a hierarchy of
+        objects.  A 'name' is a string (or path) that references an
+        object in a name space.  The format of the name depends on the
+        name space.
+
+        Definition:
+
+            NamedValue ::= 'named' ( <NamedFunction> )?
+                <string expression>
+            NamedFunction ::= 'exists'|'delete'|'dir'
+
+        Examples:
+
+            S := named 'file:c:\data';
+            W := named 'http://www.w3.org/index.html';
+            Write S, W
+
+            Writeln if named exists 'file:c:\data' then
+              'File exists'
+            else
+              'File does not exist';
+
+            T := named 'file:/home/root/data.txt';
+
+        The 'named exists' expression returns a True value if the
+        resource exists.
+
+        The 'named delete' statement deletes a resouce.
+
+        The 'named dir' expression returns a list of entries at a
+        specific path.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 34]
+
+Blaise Language               Users Guide                   October 2003
+
+
+6.  STATEMENTS
+
+    1.  Assignment
+
+        1.  Definition
+
+            AssignmentStatement ::= <AssignableName> ':=' <Expression>
+
+        2.  Examples
+
+            A.B := 10;
+            A := X;
+
+        3.  Notes
+
+            Assignment binds a value to a specified identifier.
+            Assignment of a value of an different type to that of a
+            typed identifier will cause a coerce of the value to the
+            type of the typed identifier.
+
+
+    2.  For-Loop
+
+        1.  Definition
+
+            ForStatement ::= 'for' <Identifier> ':=' <Expression>
+                'to'|'downto' <Expression> 'do' <Statement>
+
+        2.  Examples
+
+            For I := 0 to L - 1 do
+              Writeln I;
+
+        3.  Notes
+
+            The lower and higher bounds of the for-loop are evaluated
+            once, before the loop starts.  The statement is executed for
+            every integer value of the identifier between the lower and
+            higher bounds (inclusive).  If the lower bound is higher
+            than the higher bound, the statement won't be executed.
+
+            If 'to' is used, the identifier is repeatedly increased,
+            starting with the first expression until it reaches the
+            second expression.  If 'downto' is used, the identifier is
+            repeatedly decreased, also starting with the first
+            expression.
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 35]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    3.  While-Loop
+
+        1.  Definition
+
+            WhileStatement ::= 'while' <Expression> 'do' <Statement>
+
+        2.  Examples
+
+            While X < 10 do
+              X := X + 1;
+
+        3.  Notes
+
+            The while-loop executes a statement while an expression
+            evaluates to True.
+
+
+    4.  Repeat-Loop
+
+        1.  Definition
+
+            RepeatStatement ::=
+                'Repeat' <Statement>
+                'Until' <Expression>
+
+        2.  Examples
+
+            Repeat
+              X := X + 1;
+            Until X >= 10;
+
+        3.  Notes
+
+            The repeat-loop executes a statement and then repeats that
+            statement if the expression does not evaluate to True.
+
+            The statement in a repeat-loop is always executed at least
+            once.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 36]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    5.  Iteration Statement
+
+        1.  Definition
+
+            IterationStatement ::= 'For' <Identifier> 'In'
+                <Collection Expression>
+                ( 'Where' <Expression> )? 'do' <Statement>?
+                ( 'else' <Statement> )?
+
+        2.  Examples
+
+            For X in S where X.Name = 'John' do
+              begin
+                Writeln 'John's details: ', X;
+                break;
+              end
+            else
+              Writeln 'John's details not found';
+
+        3.  Notes
+
+            The iteration statement executes a statement for each item
+            in a collection.  The iteration can be limited by adding a
+            conditional expression in a 'where' clause.  The 'else'
+            statement is executed if no item matches the conditional
+            expression or if the collection is empty.
+
+
+    6.  Block Statement
+
+        1.  Definition
+
+            BlockStatement ::= 'Begin'
+                ( <Statement> (';' Statement)* )?
+                'End'
+
+        2.  Examples
+
+            For I := 1 to 10 do
+              begin
+                X := X + I;
+                Y := Y - I;
+              end;
+
+        3.  Notes
+
+            A sequence of statements can be grouped to act as one
+            statement by enclosing the statements in a 'begin'/'end'
+            pair.
+
+
+Butler                   Blaise Specifications                 [Page 37]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    7.  If Statement
+
+        The If statement evaluates a statement if a boolean expression
+        evaluates to True, and optionally another statement if the
+        expression evaluates to False.
+
+        Examples:
+
+            if A = 1 then
+              Writeln 'A is 1';
+
+            if (A = 1) or (B = 1) then
+              Writeln 'A is 1 or B is 1' else
+              Writeln 'Neither A or B is 1';
+
+            if X = 'A' then
+              begin
+                DoSomething;
+                DoSomething;
+              end;
+
+
+    8.  Case Statement
+
+        The Case statement compares an expression to a set of values
+        (or ranges) and executes the statement for the first value that
+        matches.
+
+        Examples:
+
+            Case I of
+              0    : Writeln 'I is 0';
+              2..5 : Writeln 'I is in the range 2 to 5';
+            else
+              Writeln 'I is not 0 nor 2 to 5';
+            end;
+
+            Case J of
+              1.7 .. 100.2 : DoSomething;
+              100.2 .. 199 : DoSomething;
+            end;
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 38]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    9.  Mathematical statements
+
+        These statements call the __xxx method, where xxx is the
+        statement name, on objects.
+
+        1.  Inc
+
+            Increases the argument.
+
+        2.  Dec
+
+            Decreases the argument.
+
+
+    10. Input/Output statements
+
+        1.  Write/Writeln
+
+            Write outputs the text representation of a value.  If
+            Writeln is used the value is followed by a CRLF (ASCII 13 +
+            ASCII 10) sequence.
+
+            Examples:
+
+                Writeln 1 + 1;     // 2
+                Writeln '1 + 1';   // 1 + 1
+
+        2.  Read/Readln
+
+            *
+
+
+    11. Flow of control statements
+
+        1.  Exit
+
+            Exit causes control to be passed away from the current
+            procedure / function.
+
+        2.  Break
+
+            Break cause control to be passed away from the current For,
+            Repeat or While statement.
+
+        3.  Continue
+
+            Continue cause control to be passed to the next iteration of
+            the current For, Repeat or While statement.
+
+
+
+Butler                   Blaise Specifications                 [Page 39]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        4.  Raise
+
+            Raise cause control to be passed to the innermost exception
+            handler for processing.
+
+        5.  Try .. Finally
+
+            When statements execute within a Try .. Finally block and
+            either, i) an exception is raised or ii) the statements
+            complete execution, control is passed to the statements in
+            the Finally block.
+
+            Examples:
+
+                try
+                  DoTask;
+                finally
+                  Writeln 'Finished';
+                end;
+
+        6.  Try .. Except
+
+            When statements execute within a Try .. Except block and an
+            exception is raised, control is passed to the exception
+            handler.  If the exception handler handles the exception
+            (that is, the default handler is executed or a specific
+            handler is executed), then control continues at the point
+            after the exception handler.  If the exception is not
+            handled, control is resumed at the start of the next
+            innermost exception handler.
+
+            If no exception occur within the Try .. Except block, the
+            exception block is ignored.
+
+            The formal definition of a Try .. Except statement is:
+
+                DefaultHandler ::= ( <Statement> ( ';' <Statement> )* )?
+                TryExceptStatement ::=
+                    'try' ( <Statement> ( ';' <Statement> )* )?
+                    'except'
+                      ( ( 'on' <Identifier> ( ':' <Identifier> )? 'do'
+                          ( <Statement> ( ';' <Statement> )* )? )*
+                        ( 'else' <DefaultHandler> )? )
+                      | <DefaultHandler>
+                    'end'
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 40]
+
+Blaise Language               Users Guide                   October 2003
+
+
+            Examples:
+
+                try
+                except
+                  on Integer do Writeln 'Integer exception';
+                  on E : String do Writeln 'Message: ' + E;
+                end;
+
+                try
+                except
+                  Writeln 'Error';
+                end;
+
+                try
+                except
+                  on String do ;   // ignore exception
+                else
+                  begin
+                    Writeln 'Error';
+                    raise;    // re-raise exception
+                  end;
+                end;
+
+            Exceptions can also be handled and re-raised in a nested
+            manner, for example:
+
+                try
+                  raise Error.Create ('Outer');
+                except
+                  on Outer : Error do
+                    try
+                      raise Error.Create ('Inner');
+                    except
+                      on Inner : Error do
+                        raise;
+                    end;
+                end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 41]
+
+Blaise Language               Users Guide                   October 2003
+
+
+7.  REPRESENTATIONS
+
+    Blaise supports four value representations:
+
+    1.  String representation
+
+        This is a printable representation of a value.  The
+        representation is obtained by coercing a value to type
+        String, for example:
+
+        X := String(1.23);
+
+    2.  Unicode representation
+
+        This is the same as the string representation, except that
+        the returned string is an Unicode string.
+
+    3.  Blaise script representation
+
+        The script representation is like the string representation,
+        except, where possible, the string uses the Blaise script
+        syntax.  The script representation is returned by the Repr
+        function, for example:
+
+        X := '123';
+        Write X;          // Output is 123
+        Write Repr(X);    // Output is '123'
+
+    4.  Packed representation
+
+        The stream type supports binary packing and unpacking of
+        values through the WritePacked and ReadPacked methods, for
+        example:
+
+        X := named 'file:c:\test.dat';
+        X.WritePacked(1.23);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 42]
+
+Blaise Language               Users Guide                   October 2003
+
+
+
+8.  UNITS
+
+    Blaise code modules are called units.  A unit can contain any
+    declaration found in a normal Blaise application.  Units are
+    commonly used to break up large pieces of code into logical
+    groups and to re-use pieces of code.
+
+    1.  Importing units
+
+        The uses clause is allowed at the beginning of an
+        application, interface or implementation declaration.
+        It specifies which units are to be imported into the
+        scope.
+
+        For example:
+
+            Program Test;
+
+            uses UtilityFunctions;
+
+            begin
+              ...
+            end.
+
+        Units, or identifiers in units can be also be imported using
+        the import statement.  The import statement can be used
+        wherever statements are allowed.
+
+        For example:
+
+            Program Test;
+
+            begin
+              import MyUtilityFunction from UtilityFunctions;
+            end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 43]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    2.  Unit declarations
+
+        A unit consists of an interface section and an implementation
+        section.  Only declarations in the interface section are
+        visible to other units.
+
+        For example:
+
+          unit UtilityFunctions;
+
+          interface
+
+          function MyUtilityFunction: Integer;
+
+          implementation
+
+          function MyUtilityFunction: Integer;
+          begin
+            ...
+          end;
+
+          end.
+
+
+
+9.  EXTENDING BLAISE
+
+    The global scope of a Blaise application holds special variables
+    that can be used to modify the language's default behaviour. The
+    following global variables are available:
+
+    1.  Standard input and output
+
+        The variables __StdInput__, __StdOutput__ and __StdLog__
+        hold stream objects.  These objects are used by the
+        built-in Read and Write statements.  Errors are written
+        to __StdLog__.
+
+    2.  Root name space
+
+        The variable __RootNameSpace__ holds the name space object
+        used by Blaise's built-in name space functions.
+
+
+    *
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 44]
+
+Blaise Language               Users Guide                   October 2003
+
+
+10. MISCELLANEOUS
+
+    1.  Using TCP
+
+        *
+
+
+    2.  Using Name Spaces
+
+        *
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 45]
+
+Blaise Language               Users Guide                   October 2003
+
+
+11. REFERENCES
+
+    [1]   Programming Language Pascal
+          ISO/IEC 7185:1990
+
+    [2]   Object-Oriented Extensions to Pascal
+          Pascal Standards Committee
+          http://www.pascal-central.com/ooe-stds.html
+
+    [3]   Python
+          http://www.python.org/
+
+    [4]   Java
+          http://java.sun.com/
+
+    [5]   Ada
+          JTC1/SC22/WG9
+          http://anubis.dkuug.dk/JTC1/SC22/WG9/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 46]
+
+Blaise Language               Users Guide                   October 2003
+
+
+12. CREDITS
+
+    Blaise was designed and programmed by David J Butler.
+
+    This document was written by David J Butler.
+
+    All rights reserved.
+
+    Blaise is dedicated to Stephani.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 47]
+
+Blaise Language               Users Guide                   October 2003
+
+
+13. CONTACT INFORMATION
+
+    Blaise home page: http://www.eternallines.com/blaise
+
+    Author e-mail: david @ eternallines.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 48]
+
+Blaise Language               Users Guide                   October 2003
+
+
+14. FULL COPYRIGHT STATEMENT
+
+    Copyright (C) Eternal Lines 2003.  All Rights Reserved.
+
+    This document and translations of it may be copied and furnished to
+    others, and derivative works that comment on or otherwise explain it
+    or assist in its implementation may be prepared, copied, published
+    and distributed, in whole or in part, without restriction of any
+    kind, provided that the above copyright notice and this paragraph are
+    included on all such copies and derivative works.  However, this
+    document itself may not be modified in any way, such as by removing
+    the copyright notice or references to Eternal Lines or the author.
+
+    This document and the information contained herein is provided on an
+    "AS IS" basis and ETERNAL LINES DISCLAIMS ALL WARRANTIES, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTY THAT THE USE OF
+    THE INFORMATION HEREIN WILL NOT INFRINGE ANY RIGHTS OR ANY IMPLIED
+    WARRANTIES OF MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 49]
+
+Blaise Language               Users Guide                   October 2003
+
+
+APPENDIX A - USING THE BLAISE CLI
+
+    The Blaise CLI is used to execute Blaise Script applications from
+    the command line.
+
+    For example:
+
+      blaise MyApp.bl
+
+    will run the Blaise Script application in the file "MyApp.bl" .
+
+    The Blaise CLI can also be used to compile byte code for the
+    Blaise virtual machine, to reformat source code and to produce
+    parsing information. For a full list of options available,
+    type:
+
+      blaise -help
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 50]
+
+Blaise Language               Users Guide                   October 2003
+
+
+APPENDIX B - USING THE BLAISE DLL
+
+    A Blaise DLL is available for Win32 platforms.  This DLL provides
+    full Blaise functionality for integration into other applications.
+
+    The following functions are exported by blaise.dll:
+
+      function  GetBlaiseLanguageVersion : PChar; stdcall;
+
+      function  GetBlaiseDLLRelease : Integer; stdcall;
+
+      function  GetBlaiseDLLVersion : PChar; stdcall;
+
+      function  ExecuteBlaiseScript (
+                const Data     : PChar;
+                const DataSize : Integer ) : Integer; stdcall;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 51]
+
+Blaise Language               Users Guide                   October 2003
+
+
+APPENDIX C - LANGUAGE DEFINITION
+
+    WhiteSpace ::= [#0-#32]
+
+    EOL ::= #13 #10
+
+    Comment ::= BlockComment1 | BlockComment2 | LineComment
+
+    BlockComment1 ::= '{' Comment '}'
+
+    BlockComment2 ::= '(*' Comment '*)'
+
+    LineComment ::= '//' Comment EOL
+
+    Identifier ::= [A-Za-z_][A-Za-z_0-9]*
+
+    StringLiteral ::= ( ( "'" QuotedString "'" ) | CharLiteral )*
+
+    QuotedString ::= ( [^']* ( "''" )? )*
+
+    CharLiteral ::= '#' IntegerNumber
+
+    IntegerNumber := Number | HexNumber1 | HexNumber2 | BinNumber
+
+    NumericLiteral ::= Number | HexNumber1 | HexNumber2 | BinNumber |
+        Float | Complex
+
+    Number ::= [0-9]+
+
+    HexNumber1 ::= '0x' [0-9A-Fa-f]+
+
+    HexNumber2 ::= '$' [0-9A-Fa-f]+
+
+    BinNumber ::= '0b' [01]+
+
+    Float ::= FloatNumber | SciFloatNumber
+
+    FloatNumber ::= Number '.' Number
+
+    SciFloatNumber ::= FloatNumber [Ee] [+-] Number
+
+    BooleanLiteral ::= 'True' | 'False'
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 52]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    Source ::= Program | Unit
+
+    Program ::= ('Program' Identifier ';')?
+                (UsesClause ';')?
+                Declarations
+                Block '.'
+
+    Unit ::= 'unit' Identifier ';'
+             'interface'
+             (UsesClause ';')?
+             InterfaceDefinition
+             'implementation'
+             (UsesClause ';')?
+             Declarations
+             ( 'initialization' StatementList? )?
+             ( 'finalization' StatementList? )?
+             'end.'
+
+    UsesClause ::= 'uses' Identifier (',' Identifier)*
+
+    Block ::= 'begin' StatementList 'end'
+
+    Statement ::= SimpleStatement | CompoundStatement | Block
+
+    CompoundStatement ::= IfStatement | WhileStatement |
+        RepeatStatement | ForStatement | TryStatement | CaseStatement
+
+    ForStatement ::= 'for' Identifier ':=' Expression
+        ( 'to' | 'downto' )
+        Expression 'do' Statement
+
+    WhileStatement ::= 'while' Expression 'do' Statement
+
+    RepeatStatement ::= 'repeat' StatementList 'until' Expression
+
+    IfStatement ::= 'if' Expression 'then' Statement
+        ( 'else' Statement )? }
+
+    SimpleStatement ::= IdentifierStatement | ReadWriteStatement |
+        RaiseStatement
+
+    RaiseStatement ::= 'raise' Expression?
+
+    AssignmentStatement ::= Name ':=' Expression
+
+    IdentifierStatement ::= AssignmentStatement | ProcedureCallStatement
+        | FunctionCallExpr
+
+    CoerceIdentifier ::= ( Identifier ) '(' Name ')'
+
+
+Butler                   Blaise Specifications                 [Page 53]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    SelectedIdentifier ::= Name '.' Identifier
+
+    IndexedIdentifier ::= Name '[' Expression ']'
+
+    FunctionCallExpr ::= Name ( '(' ParamValues ')' )?
+
+    ProcedureCallStatement ::= Name ( '(' ParamValues ')' )?
+
+    Name ::= CoerceIdentifier | SelectedIdentifier |
+             IndexedIdentifier | FunctionCallExpr |
+             'inherited'? Identifier
+
+    Declarations := ( 'type' ( TypeDeclaration ';' )+ |
+                      'const' ( ConstDeclaration ';' )+ |
+                      FunctionDeclaration ';' )*
+
+    InterfaceDefinition ::= ( 'type' ( TypeDeclaration ';' )+ |
+                      'const' ( ConstDeclaration ';' )+ |
+                      FunctionProtoType ';' FunctionDirectives )*
+
+    FunctionPrototype ::= <FuncProtoType | <ProcProtoType
+
+    TypeDeclaration ::= Identifier '=' TypeDefinition
+
+    ConstDeclaration ::= Identifier (',' Identifier)*
+                         (':' TypeDefinition)? '=' Expression
+
+    VarDeclaration ::= Identifier ( ',' Identifier )*
+                       (':' TypeDefinition)? ('=' Expression)?
+
+    FunctionDeclaration ::= FuncProtoType ':=' Expression |
+        ( FuncProtoType | ProcProtoType | ConstructorProtoType | }
+        DestructorProtoType ) ';' FunctionDirectives
+        Declarations? Block
+
+    FunctionDirectives ::= 'overload;'? 'virtual;'? 'override;'?
+        'abstract;'? 'reintroduce;'? }
+
+    TypeDefinition ::= EnumType | SetType | RecordType |
+        ClassType | Identifier | ArrayType
+
+    DictionaryType ::= 'Dictionary' ( '[' TypeDefinition ']' )?
+        ( 'of' TypeDefinition )?
+
+    ArrayType ::= 'array of' TypeDefinition
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 54]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    ClassParent ::= Identifier
+
+    ClassType ::= 'class' ('(' ClassParent ')')? ClassDefinition?
+
+    ClassSectionID ::= 'private' | 'protected' | 'public'
+
+    ClassSection ::= ( FieldDefinition ';' )* MemberDefinition*
+
+    ClassDefinition ::= ClassSection?
+        ( ClassSectionID ClassSection )* 'end'
+
+    MemberDefinition ::= ( ( FuncPrototype | ProcPrototype |
+        ConstructorPrototype | } DestructorPrototype ) ';'
+        FunctionDirectives ) | PropertyPrototype ';'
+
+    PropertyPrototype ::= 'Property' Identifier
+        ( '[' ParamDefinition (';' ParamDefinition)* ']' )?
+        (':' TypeDefinition)?
+        ReadSpecifier? WriteSpecifier?
+
+    WriteSpecififer ::= 'write' Identifier
+
+    ReadSpecifier ::= 'read' Identifier
+
+    ConstructorProtoType ::= 'Constructor' Identifier
+        ( '(' ParamDefinition (';' ParamDefinition)* ')' )?
+
+    DestructorProtoType ::= 'Destructor' Identifier
+        ( '(' ParamDefinition (';' ParamDefinition)* ')' )?
+
+    ProcProtoType ::= 'Procedure' Identifier
+        ( '(' ParamDefinition (';' ParamDefinition)* ')' )?
+
+    FuncProtoType ::= 'Function' ProtoIdentifier
+        ( '(' ParamDefinition (';' ParamDefinition)* ')' )?
+        ( ':' TypeDefinition )?
+        ProtoIdentifier
+        ( '(' ParamDefinition (';' ParamDefinition)* ')' )? }
+
+    ProtoIdentifier ::= Identifier ( '.' Identifier )?
+
+    ParamDefinition ::= ( 'const' | 'var' )? Identifier
+        ( ':' TypeDefinition )? }
+        ( '=' Expression )?
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 55]
+
+Blaise Language               Users Guide                   October 2003
+
+
+    RecordType ::= 'Record' (FieldDefinition ';' )* 'end'
+
+    EnumType ::= '(' Identifier ( '=' Value )?
+        ( ',' Identifier ( '=' Value )? )* ')'
+
+    IdentifierType ::= Identifier
+
+    ParamValues ::= Expression ( ',' Expression )*
+
+    StatementList ::= (Statement? ';')* Statement?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 56]
+
+Blaise Language               Users Guide                   October 2003
+
+
+APPENDIX D - BLAISE ROOT NAME SPACE
+
+    Directories in the root name space are accessed using the following
+    syntax:
+
+    <directory name> ':' ( <directory sub-path> )?
+
+    The root name space has the following directories:
+
+        1.  FILE
+
+            FILE maps a file stream from the file system.
+
+            Name definition:
+
+                FileName ::= 'file:' <file-name>
+
+            Examples:
+
+                file:\\network\abc\data.txt
+                file:c:\data.txt
+
+            Files are mapped in 'Create on Write' mode.  This means that
+            if a non-existant file is mapped, it acts like a file of
+            size 0 until it is written to, in which case it is actually
+            created.
+
+
+        2.  TCP
+
+            TCP maps the client socket stream of a TCP connection.
+
+            Name definition:
+
+                TPCName ::= 'tcp:' ( ( <address> ':' <port> ) | <id> )
+
+            Examples:
+
+                tcp:irc.w3.org:6667               // New client
+                tcp:A1B6                          // Existing client
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 57]
+
+Blaise Language               Users Guide                   October 2003
+
+
+        3.  TCPD (not fully supported in version 0.9)
+
+            TCPD maps a TCP server.
+
+            Name definition:
+
+                TCPDName ::= 'tcpd:' <key>
+                             ( ':' ( <address> | '*' ) ':' <port> )?
+                             ( '/' <TCPDConnection> )?
+
+            Examples:
+
+                tcpd:mailserver:*:25
+                tcpd:httpserver:127.0.0.1:80
+
+            Properties available on the object returned by the TCPD name
+            space:
+
+                Count     : Number of client connections to the server
+
+            Methods:
+
+                Accept    : Wait and accept a client connection.
+                            Returns the client stream.
+
+
+        4.  HTTP
+
+            HTTP maps the response stream of an HTTP request.
+
+            Examples:
+
+                http://www.w3.org/index.html
+
+            Properties available on the object returned by the HTTP name
+            space:
+
+                Host
+                URI
+                StatusLine
+                StatusCode
+                StatusMessage
+                ServerName
+                Location
+                ContentType
+                ContentLength
+                Header
+
+
+
+
+Butler                   Blaise Specifications                 [Page 58]
+
+Blaise Language               Users Guide                   October 2003
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Butler                   Blaise Specifications                 [Page 59]
+
